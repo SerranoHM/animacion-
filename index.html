@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <button onclick="moveLeft()">left</button>
+    <button onclick="moveRight()">right</button>
+
+    <script>
+    var canWidth = 650;
+    var canHeight = 300;
+
+    var x = 0;
+    var y = 0;
+
+    var left = false;
+
+    var tracRLeft = 1;
+    var tracRight = 0;
+
+    var srcX;
+    var srcY;
+
+    var sheetWidth = 864;
+    var sheetHeight = 280;
+
+    var cols = 8
+    var rows = 2;
+
+    var width = sheetWidth / cols;
+    var height = sheetHeight / rows;
+
+    var currentFrame = 0;
+
+    var character = new Image();
+    character.src = "img/character.png";
+
+    var canvas = document.getElementById('canvas');
+    canvas.width = canWidth;
+    canvas.height = canHeight;
+
+
+    var ctx = canvas.getContext('2d');
+
+    function moveRight() {
+        left = false;
+    }
+
+    function moveLeft() {
+        left = true;
+    }
+
+    function updateFrame() {
+        ctx.clearRect(x,y, width, height);
+        currentFrame = ++currentFrame % cols;
+        srcX = currentFrame * width;
+        if (left) 
+            srcY = tracRLeft * height;
+            else{
+                x+=5;
+        srcY = tracRight * height;
+            }
+    }
+
+
+
+    function drawImage() {
+        updateFrame();
+        ctx.drawImage(character, srcX, srcY, width, height, x, y, width, height);
+    }
+
+    setInterval(function(){
+        drawImage();
+    },100);
+
+    </script>
+</body>
+</html>
